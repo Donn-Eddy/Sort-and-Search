@@ -26,6 +26,7 @@ int main()
 
     ToSort = Sort(ToSort);
 
+    //Print the array after it's sorted to make it easier to see.
     for (int i = 0; i < 100; i++)
     {
         cout << ToSort[i] << ((i == 99) ? "" : ",");
@@ -45,7 +46,7 @@ int main()
     return 0;
 }
 
-int BinSearch(array<int, 100> a, int s)
+int BinSearch(const array<int, 100> a, int s)
 {
     //I will perform a basic boolean search.
 
@@ -54,27 +55,26 @@ int BinSearch(array<int, 100> a, int s)
     int hi = a.size();
     int toUse = 0;
     int last = -1;
+
     //Used in loop to reduce calls to the array.
     int value;
 
     while (true)
     {
+        // Search the center of the remaining numbers
         toUse = (hi - lo) / 2 + lo;
-        if (lo == hi || last == toUse)
-        {
-            //Not Found
-            return -1;
-        }
+
+        //If not found
+        if (lo == hi || last == toUse) return -1;
+
+        //Prevent exceeding array bounds
+        if (toUse >= a.size()) toUse = a.size() - 1;
+
         value = a[toUse];
+
         if (value == s) return toUse;
-        if (value < s)
-        {
-            lo = toUse;
-        }
-        if (value > s)
-        {
-            hi = toUse;
-        }
+        if (value < s) lo = toUse;
+        if (value > s) hi = toUse;
 
         last = toUse;
 
@@ -85,7 +85,7 @@ int BinSearch(array<int, 100> a, int s)
     return -2;
 }
 
-array<int, 100> Sort(array<int, 100> a)
+array<int, 100> Sort( array<int, 100> a)
 {
     bool sorted = true;
     do
