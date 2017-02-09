@@ -10,6 +10,8 @@ array<int, 100> ToSort;
 
 array<int, 100> Sort(array<int, 100> a);
 
+int BinSearch(array<int, 100> a, int s);
+
 int main()
 {
     srand (time(NULL));
@@ -28,7 +30,59 @@ int main()
     {
         cout << ToSort[i] << ((i == 99) ? "" : ",");
     }
+
+    int toSearch = 0;
+
+    std::cout << std::endl << "What number should I find? ";
+    std::cin >> toSearch;
+
+    std::cout << std::endl;
+
+    int result = BinSearch(ToSort, toSearch);
+
+    std::cout << std::endl << result << std::endl;
+
     return 0;
+}
+
+int BinSearch(array<int, 100> a, int s)
+{
+    //I will perform a basic boolean search.
+
+    //-2 == still searching | -1 == not found
+    int lo = 0;
+    int hi = a.size();
+    int toUse = 0;
+    int last = -1;
+    //Used in loop to reduce calls to the array.
+    int value;
+
+    while (true)
+    {
+        toUse = (hi - lo) / 2 + lo;
+        if (lo == hi || last == toUse)
+        {
+            //Not Found
+            return -1;
+        }
+        value = a[toUse];
+        if (value == s) return toUse;
+        if (value < s)
+        {
+            lo = toUse;
+        }
+        if (value > s)
+        {
+            hi = toUse;
+        }
+
+        last = toUse;
+
+        std::cout<< "lo: " << lo << " hi: " << hi << std::endl;
+    }
+
+    //error
+    return -2;
 }
 
 array<int, 100> Sort(array<int, 100> a)
